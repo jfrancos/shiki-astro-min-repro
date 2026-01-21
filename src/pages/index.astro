@@ -1,16 +1,41 @@
 ---
+import { Code } from "astro:components";
+import { createHighlighter } from "shiki";
+import "github-markdown-css/github-markdown.css";
+import code from "../Example.vue?raw";
 
+const theme = "github-dark";
+
+const vueHighlighted = (
+  await createHighlighter({
+    langs: ["vue"],
+    themes: [theme],
+  })
+).codeToHtml(code, { lang: "vue", theme });
+
+const vueTsxHighlighted = (
+  await createHighlighter({
+    langs: ["vue", "tsx"],
+    themes: [theme],
+  })
+).codeToHtml(code, { lang: "vue", theme });
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Shiki/vue/jsx min repro</title>
+  </head>
+  <body class="p-8 max-w-224 mx-auto! markdown-body">
+    <h1>Min repro for shiki/vue/tsx issue</h1>
+    <h3>Astro <code>{"<Code />"}</code>:</h3>
+    <Code code={code} lang="vue" />
+    <h3>Shiki <code>langs: ["vue"]</code>:</h3>
+    <Fragment set:html={vueHighlighted} />
+    <h3>Shiki <code>langs: ["vue", "tsx"]</code>:</h3>
+    <Fragment set:html={vueTsxHighlighted} />
+  </body>
 </html>
