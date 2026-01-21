@@ -31,11 +31,16 @@ const vueTsxHighlighted = (
   </head>
   <body class="p-8 max-w-224 mx-auto! markdown-body">
     <h1>Min repro for shiki/vue/tsx issue</h1>
-    <h3>Astro <code>{"<Code />"}</code>:</h3>
+    <h3>Astro <code>{"<Code />"}</code></h3>
+    <p>Line #2 should be highlighted but it isn't:</p>
     <Code code={code} lang="vue" />
-    <h3>Shiki <code>langs: ["vue"]</code>:</h3>
+    <h3>Shiki <code>{'{ langs: ["vue"] }'}</code></h3>
+    <p>
+      Same, using <code>codeToHtml</code> as <code>{"<Code />"}</code> does:
+    </p>
     <Fragment set:html={vueHighlighted} />
-    <h3>Shiki <code>langs: ["vue", "tsx"]</code>:</h3>
+    <h3>Shiki <code>{'{ langs: ["vue", "tsx"] }'}</code></h3>
+    <p>Specifying the embedded language fixes it:</p>
     <Fragment set:html={vueTsxHighlighted} />
   </body>
 </html>
